@@ -29,13 +29,13 @@ void print_list(const struct node *head){
     }
     printf("the end\n");
 }
-/*struct node *push_front(struct node *head,int id,const char *name){
+/*struct node *push_front(struct node *head,int id,const char *name){  头插
     struct node *q=create_node(id, name);
     if (q == NULL) return head; 
     q->next=head;
     return q;
 }*/
-struct node *push_back(struct node *head, int id, const char *name){
+struct node *push_back(struct node *head, int id, const char *name){  //尾插
     struct node *q=create_node(id,name);
     if(!q)
         return head;
@@ -74,6 +74,35 @@ struct node *remove_node(struct node *head, int id){
 
 }
 
+struct node *reverse(struct node *head){
+    struct node *p = head, *q = NULL, *j;
+    while (p){            
+        j = p->next;     
+        p->next = q;   
+        q = p;             
+        p = j;            
+    }
+    return q;          
+}
+struct node *middle(struct node *head){
+    struct node *p=head,*q=head;
+    while(p&&p->next){
+        p=p->next->next;
+        q=q->next;
+    }
+    return q;
+}
+int has_cycle(struct node *head){
+    struct node *p=head,*q=head;
+    while(p&&p->next){
+        p=p->next->next;
+        q=q->next;
+        if(q==p)return 1;
+    }
+    return 0;
+}
+
+
 
 void free_list(struct node *head){
     struct node *p=head;
@@ -97,7 +126,9 @@ int main(void) {
     head = remove_node(head, 2);
     print_list(head);
 
+    head = reverse(head);
     print_list(head);
+
     free_list(head);
     return 0;
 }
